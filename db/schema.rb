@@ -10,7 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170410182936) do
+ActiveRecord::Schema.define(version: 20170412013028) do
+
+  create_table "infected_flags", force: :cascade do |t|
+    t.integer "infected_id"
+    t.integer "reporter_id"
+    t.index ["infected_id", "reporter_id"], name: "index_infected_flags_on_infected_id_and_reporter_id", unique: true
+  end
 
   create_table "resources", force: :cascade do |t|
     t.string   "name",       limit: 50, null: false
@@ -38,6 +44,7 @@ ActiveRecord::Schema.define(version: 20170410182936) do
     t.integer  "flag_counter",                                            default: 0
     t.datetime "created_at",                                                          null: false
     t.datetime "updated_at",                                                          null: false
+    t.integer  "flags_count",                                             default: 0, null: false
   end
 
 end

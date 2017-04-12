@@ -3,6 +3,7 @@ Rails.application.routes.draw do
     resources :survivors, only: [:create, :show] do
       member do
         put :update_location
+        put :report_infected
       end
     end
   end
