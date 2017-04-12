@@ -1,5 +1,16 @@
 require 'rails_helper'
 
+RSpec.shared_examples 'check_bad_request' do
+  it 'should get http status as bad_request' do
+    expect(response).to have_http_status(:bad_request)
+  end
+
+  it 'should contains errors in response body' do
+    expect(json_response_body).to have_key('errors')
+    expect(json_response_body['errors'].count).to eq(1)
+  end
+end
+
 RSpec.describe V1::SurvivorsController, type: :controller do
   let(:valid_attributes) { attributes_for(:full_new_survivor) }
   let(:invalid_attributes) { attributes_for(:full_new_survivor).merge(name: nil) }
@@ -65,6 +76,16 @@ RSpec.describe V1::SurvivorsController, type: :controller do
         expect(json_response_body['survivor']).to have_key('inventory')
       end
     end
+
+    context 'when survivor is infected' do
+      let(:survivor) { create(:infected_survivor) }
+
+      before { get :show, params: { id: survivor.id } }
+
+      it 'should get http status as not_found' do
+        expect(response).to have_http_status(:not_found)
+      end
+    end
   end
 
   describe 'PUT #update_location' do
@@ -80,12 +101,12 @@ RSpec.describe V1::SurvivorsController, type: :controller do
 
       it 'should update survivors last_location' do
         survivor.reload
-        expect(survivor.combined_last_location).to eq(update_params[:last_location])
+        expect(survivor.last_location).to eq(update_params[:last_location])
       end
     end
 
     context 'with empty last_location' do
-      let(:update_params) { { id: survivor.id } }
+      let(:update_params) { { id: survivor.id, last_location: '' } }
 
       it 'should get http status as unprocessable_entity' do
         expect(response).to have_http_status(:unprocessable_entity)
@@ -94,6 +115,84 @@ RSpec.describe V1::SurvivorsController, type: :controller do
       it 'should contains validation errors in response body' do
         expect(json_response_body).to have_key('errors')
       end
+    end
+
+    context 'when survivor is infected' do
+      let(:survivor) { create(:infected_survivor) }
+
+      it 'should get http status as not_found' do
+        expect(response).to have_http_status(:not_found)
+      end
+    end
+  end
+
+  describe 'PUT #report_infected' do
+    let(:reporter) { create(:full_new_survivor) }
+    let(:infected) { create(:full_new_survivor) }
+    let(:infected_survivor_id) { infected.id }
+
+    context 'when params are correct' do
+      before do
+        @old_flags_count = infected.flags_count
+
+        put :report_infected, params: { id: reporter.id, survivor_id: infected_survivor_id }
+
+        infected.reload
+        @new_flags_count = infected.flags_count
+      end
+
+      it 'should get http status as bad_request' do
+        expect(response).to have_http_status(:ok)
+      end
+
+      it 'should increment the flags counter' do
+        expect(@new_flags_count).to eq(@old_flags_count + 1)
+      end
+
+      it 'should keep status as alive' do
+        expect(infected.alive?).to be_truthy
+      end
+
+      context 'and survivor already has twos flags' do
+        let(:infected) { create(:survivor_flagged_twice) }
+
+        it 'should get http status as bad_request' do
+          expect(response).to have_http_status(:ok)
+        end
+
+        it 'should increment the flags counter' do
+          expect(@new_flags_count).to eq(@old_flags_count + 1)
+        end
+
+        it 'should update infected status to "infected"' do
+          expect(infected.infected?).to be_truthy
+        end
+      end
+
+      context 'and survivor is infected' do
+        let(:reporter) { create(:infected_survivor) }
+
+        it 'should get http status as not_found' do
+          expect(response).to have_http_status(:not_found)
+        end
+      end
+    end
+
+    context 'when reporter has already reported a survivor as infected' do
+      before do
+        create(:flag, infected: infected, reporter: reporter)
+        put :report_infected, params: { id: reporter.id, survivor_id: infected_survivor_id }
+      end
+
+      include_examples 'check_bad_request'
+    end
+
+    context 'when survivor does not exist' do
+      let(:infected_survivor_id) { -1 }
+
+      before { put :report_infected, params: { id: reporter.id, survivor_id: infected_survivor_id } }
+
+      include_examples 'check_bad_request'
     end
   end
 end

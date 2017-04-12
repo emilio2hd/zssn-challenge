@@ -28,7 +28,7 @@ RSpec.describe SurvivorSerializer, type: :serializer do
   end
 
   it 'should have a last_location that matches' do
-    expect(subject['survivor']['last_location']).to eql("#{@survivor.last_location_lati},#{@survivor.last_location_long}")
+    expect(subject['survivor']['last_location']).to eql(@survivor.last_location)
   end
 
   it 'should have inventory key' do

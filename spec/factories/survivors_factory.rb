@@ -16,5 +16,17 @@ FactoryGirl.define do
     items do
       [ { name: 'Water', quantity: '5' }, { name: 'Food', quantity: '10' }, { name: 'Medication', quantity: '15' } ]
     end
+
+    factory :survivor_flagged_twice, class: Survivor do
+      transient { flags_count 2 }
+
+      after(:create) do |survivor, evaluator|
+        create_list(:flag, evaluator.flags_count, infected: survivor)
+      end
+    end
+
+    factory :infected_survivor, class: Survivor do
+      status 'infected'
+    end
   end
 end

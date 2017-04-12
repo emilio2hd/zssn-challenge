@@ -21,3 +21,8 @@
 
 en:
   hello: "Hello world"
+  message:
+    error:
+      survivor:
+        not_found: "Survivor does not exist"
+        has_been_reported_by_you: "This survivor has been reported by you"

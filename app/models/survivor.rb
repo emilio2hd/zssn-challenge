@@ -2,26 +2,36 @@ class Survivor < ApplicationRecord
   enum status: [ :alive, :infected ]
   enum gender: [ :female, :male, :other ]
 
-  attr_accessor :last_location, :items
+  attr_accessor :items
   has_many :survivor_items
+  has_many :infected_flags, foreign_key: 'infected_id', counter_cache: :flags_count
 
   validates :name, :age, :gender, :last_location, presence: true
   validates :name, length: { maximum: 255 }
 
-  before_save :split_last_location
   before_validation :build_survivor_items, on: :create
 
-  def combined_last_location
+  def last_location=(last_location)
+    self.last_location_lati = nil
+    self.last_location_long = nil
+
+    unless last_location.to_s.empty?
+      latitude, longitude = last_location.to_s.split(',')
+      self.last_location_lati = latitude.to_d
+      self.last_location_long = longitude.to_d
+    end
+  end
+
+  def last_location
+    return nil if !last_location_lati && !last_location_long
     "#{last_location_lati},#{last_location_long}"
   end
 
-  private
-
-  def split_last_location
-    latitude, longitude = last_location.split(',')
-    self.last_location_lati = latitude.to_d
-    self.last_location_long = longitude.to_d
+  def check_status
+    infected! if flags_count >= 3
   end
+
+  private
 
   def build_survivor_items
     resources = Resource.all
