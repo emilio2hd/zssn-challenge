@@ -4,6 +4,7 @@ Rails.application.routes.draw do
       member do
         put :update_location
         put :report_infected
+        put :trade
       end
     end
   end
