@@ -20,9 +20,18 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
   message:
     error:
       survivor:
         not_found: "Survivor does not exist"
         has_been_reported_by_you: "This survivor has been reported by you"
+
+  activemodel:
+    errors:
+      models:
+        trade_form:
+          attributes:
+            items:
+              different_amount_points: "The amount of points is different"
+            target_survivor_id:
+              not_alive: "Survivor is not alive"

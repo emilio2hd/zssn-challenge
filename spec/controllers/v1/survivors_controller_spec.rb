@@ -141,7 +141,7 @@ RSpec.describe V1::SurvivorsController, type: :controller do
         @new_flags_count = infected.flags_count
       end
 
-      it 'should get http status as bad_request' do
+      it 'should get http status as ok' do
         expect(response).to have_http_status(:ok)
       end
 
@@ -156,7 +156,7 @@ RSpec.describe V1::SurvivorsController, type: :controller do
       context 'and survivor already has twos flags' do
         let(:infected) { create(:survivor_flagged_twice) }
 
-        it 'should get http status as bad_request' do
+        it 'should get http status as ok' do
           expect(response).to have_http_status(:ok)
         end
 
@@ -193,6 +193,41 @@ RSpec.describe V1::SurvivorsController, type: :controller do
       before { put :report_infected, params: { id: reporter.id, survivor_id: infected_survivor_id } }
 
       include_examples 'check_bad_request'
+    end
+  end
+
+  describe 'PUT #trade' do
+    let(:source) { create(:full_new_survivor) }
+    let(:destiny) { create(:full_new_survivor) }
+
+    context 'with valid data' do
+      before do
+        items = { sending: { 'Water' => 1, 'Medication' => 1 }, requesting: { 'Ammunition' => 6 } }
+        put :trade, params: { id: source.id, target_survivor_id: destiny.id, items: items }
+      end
+
+      it 'should get http status as ok' do
+        expect(response).to have_http_status(:ok)
+      end
+    end
+
+    context 'with invalid data' do
+      before { put :trade, params: { id: source.id } }
+
+      it 'should get http status as bad_request and has errors' do
+        expect(response).to have_http_status(:bad_request)
+        expect(json_response_body).to have_key('errors')
+      end
+    end
+
+    context 'when survivor does not exist' do
+      let(:source) { create(:infected_survivor) }
+
+      before { put :trade, params: { id: source.id } }
+
+      it 'should get http status as not_found' do
+        expect(response).to have_http_status(:not_found)
+      end
     end
   end
 end

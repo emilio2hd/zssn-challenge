@@ -11,6 +11,8 @@ class Survivor < ApplicationRecord
 
   before_validation :build_survivor_items, on: :create
 
+  scope :only_alive, -> { where(status: :alive) }
+
   def last_location=(last_location)
     self.last_location_lati = nil
     self.last_location_long = nil

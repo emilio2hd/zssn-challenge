@@ -1,14 +1,14 @@
 module V1
   class SurvivorsController < ApplicationController
-    before_action :set_survivor, only: [:show, :update_location, :report_infected]
+    before_action :set_survivor, only: [:show, :update_location, :report_infected, :trade]
 
     def create
-      @survivor = Survivor.new(new_survivor_params)
+      survivor = Survivor.new(new_survivor_params)
 
-      if @survivor.save
-        render json: @survivor, serializer: ResumedSurvivorSerializer, status: :created
+      if survivor.save
+        render json: survivor, serializer: ResumedSurvivorSerializer, status: :created
       else
-        render json: { errors: @survivor.errors }, status: :unprocessable_entity
+        render json: { errors: survivor.errors }, status: :unprocessable_entity
       end
     end
 
@@ -42,10 +42,26 @@ module V1
       return render json: { errors: [I18n.t('message.error.survivor.has_been_reported_by_you')] }, status: :bad_request
     end
 
+    def trade
+      trade = TradeForm.new(trade_params.merge(origin_survivor_id: @survivor.id))
+
+      if trade.perform
+        render status: :ok
+      else
+        render json: { errors: trade.errors }, status: :bad_request
+      end
+    end
+
     private
 
     def set_survivor
-      @survivor = Survivor.where(status: :alive).find(params[:id])
+      @survivor = Survivor.only_alive.find(params[:id])
+    end
+
+    def trade_params
+      params.permit(:target_survivor_id).tap do |whitelisted|
+        whitelisted[:items] = params[:items].permit! if params.key? :items
+      end
     end
 
     def survivor_location_params
