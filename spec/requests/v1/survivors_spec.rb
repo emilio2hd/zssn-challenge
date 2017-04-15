@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'V1::Survivors', type: :request do
-  before(:all) { load_all_resources }
+  before(:each) { load_all_resources }
 
   describe 'POST /v1/survivors' do
     let(:valid_attributes) { attributes_for(:full_new_survivor) }

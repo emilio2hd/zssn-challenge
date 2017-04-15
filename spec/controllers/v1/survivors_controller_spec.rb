@@ -15,7 +15,7 @@ RSpec.describe V1::SurvivorsController, type: :controller do
   let(:valid_attributes) { attributes_for(:full_new_survivor) }
   let(:invalid_attributes) { attributes_for(:full_new_survivor).merge(name: nil) }
 
-  before(:all) { load_all_resources }
+  before(:each) { load_all_resources }
 
   describe 'POST #create' do
     context 'with valid params' do
