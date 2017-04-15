@@ -12,6 +12,7 @@ class Survivor < ApplicationRecord
   before_validation :build_survivor_items, on: :create
 
   scope :only_alive, -> { where(status: :alive) }
+  scope :only_infected, -> { where(status: :infected) }
 
   def last_location=(last_location)
     self.last_location_lati = nil
@@ -31,6 +32,22 @@ class Survivor < ApplicationRecord
 
   def check_status
     infected! if flags_count >= 3
+  end
+
+  class << self
+    def percentage_infected
+      percentage_of(only_infected)
+    end
+
+    def percentage_non_infected
+      percentage_of(only_alive)
+    end
+
+    private
+
+    def percentage_of(status)
+      (status.count.to_f / count.to_f * 100).round(2)
+    end
   end
 
   private

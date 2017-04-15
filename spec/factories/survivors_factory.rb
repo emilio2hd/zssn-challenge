@@ -5,6 +5,10 @@ FactoryGirl.define do
     gender 'female'
     last_location '-16.642442,-49.402550'
     status 'alive'
+
+    factory :new_infected_survivor, class: Survivor do
+      status 'infected'
+    end
   end
 
   factory :full_new_survivor, class: Survivor do
