@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  #apipie
   namespace :v1 do
     resources :survivors, only: [:create, :show] do
       member do
@@ -17,4 +18,6 @@ Rails.application.routes.draw do
       end
     end
   end
+
+  root 'apipie/apipies#index'
 end

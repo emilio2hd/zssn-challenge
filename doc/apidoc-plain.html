@@ -1,0 +1,741 @@
+  <h4><a href='#reports'>Reports</a></h4>
+  <ul>
+      <li><a href='#reports-infected_survivors'>infected_survivors</a></li>
+      <li><a href='#reports-non_infected_survivors'>non_infected_survivors</a></li>
+      <li><a href='#reports-resource_average_by_survivor'>resource_average_by_survivor</a></li>
+      <li><a href='#reports-points_lost_by_infection'>points_lost_by_infection</a></li>
+  </ul>
+  <h4><a href='#survivors'>Survivors</a></h4>
+  <ul>
+      <li><a href='#survivors-create'>create</a></li>
+      <li><a href='#survivors-show'>show</a></li>
+      <li><a href='#survivors-update_location'>update_location</a></li>
+      <li><a href='#survivors-report_infected'>report_infected</a></li>
+      <li><a href='#survivors-trade'>trade</a></li>
+  </ul>
+
+
+
+  <hr/>
+
+  <div>
+    <h2 id="reports">
+      <a href='#reports'>Reports</a><br>
+      <small></small>
+    </h2>
+  </div>
+
+
+  <div>
+
+      <hr/>
+
+      <h3 id="reports-infected_survivors">
+      <a href='#reports'>Reports</a> / <a href='#reports-infected_survivors'>infected_survivors</a>
+      </h3>
+
+      <div>
+          <h4>
+              GET /v1/reports/infected_survivors
+            <br>
+            <small>Percentage of infected survivors.</small>
+          </h4>
+      </div>
+
+      <div>
+        
+          <h4>Examples</h4>
+            <pre class="wiki">GET /v1/reports/infected_survivors
+200
+{
+  &quot;percentage&quot;: 30
+}</pre>
+
+
+      </div>
+      <hr/>
+
+      <h3 id="reports-non_infected_survivors">
+      <a href='#reports'>Reports</a> / <a href='#reports-non_infected_survivors'>non_infected_survivors</a>
+      </h3>
+
+      <div>
+          <h4>
+              GET /v1/reports/non_infected_survivors
+            <br>
+            <small>Percentage of non-infected survivors.</small>
+          </h4>
+      </div>
+
+      <div>
+        
+          <h4>Examples</h4>
+            <pre class="wiki">GET /v1/reports/non_infected_survivors
+200
+{
+  &quot;percentage&quot;: 70
+}</pre>
+
+
+      </div>
+      <hr/>
+
+      <h3 id="reports-resource_average_by_survivor">
+      <a href='#reports'>Reports</a> / <a href='#reports-resource_average_by_survivor'>resource_average_by_survivor</a>
+      </h3>
+
+      <div>
+          <h4>
+              GET /v1/reports/resource_average_by_survivor
+            <br>
+            <small>List of resources and their average amount by survivor</small>
+          </h4>
+      </div>
+
+      <div>
+        
+          <h4>Examples</h4>
+            <pre class="wiki">GET /v1/reports/resource_average_by_survivor
+200
+{
+  &quot;resources&quot;: {
+    &quot;Water&quot;: 10,
+    &quot;Food&quot;: 32,
+    &quot;Medication&quot;: 20,
+    &quot;Ammunition&quot;: 15
+  }
+}</pre>
+
+
+      </div>
+      <hr/>
+
+      <h3 id="reports-points_lost_by_infection">
+      <a href='#reports'>Reports</a> / <a href='#reports-points_lost_by_infection'>points_lost_by_infection</a>
+      </h3>
+
+      <div>
+          <h4>
+              GET /v1/reports/points_lost_by_infection
+            <br>
+            <small>Points lost because of infected survivor.</small>
+          </h4>
+      </div>
+
+      <div>
+        
+          <h4>Examples</h4>
+            <pre class="wiki">GET /v1/reports/points_lost_by_infection
+200
+{
+  &quot;points_lost&quot;: 150
+}</pre>
+
+
+      </div>
+  </div>
+
+  <hr/>
+
+  <div>
+    <h2 id="survivors">
+      <a href='#survivors'>Survivors</a><br>
+      <small></small>
+    </h2>
+  </div>
+
+
+  <div>
+
+      <hr/>
+
+      <h3 id="survivors-create">
+      <a href='#survivors'>Survivors</a> / <a href='#survivors-create'>create</a>
+      </h3>
+
+      <div>
+          <h4>
+              POST /v1/survivors
+            <br>
+            <small>Add a new survivor to the database</small>
+          </h4>
+      </div>
+
+      <div>
+        
+          <h4>Examples</h4>
+            <pre class="wiki">POST /v1/survivors
+{
+  &quot;survivor&quot;: {
+    &quot;name&quot;: &quot;Daryl Dixon&quot;,
+    &quot;age&quot;: 30,
+    &quot;gender&quot;: &quot;male&quot;,
+    &quot;last_location&quot;: &quot;-16.642442,-49.402550&quot;,
+    &quot;items&quot;: [
+      {
+        &quot;name&quot;: &quot;Water&quot;,
+        &quot;quantity&quot;: 10
+      },
+      {
+        &quot;name&quot;: &quot;Food&quot;,
+        &quot;quantity&quot;: 10
+      },
+      {
+        &quot;name&quot;: &quot;Medication&quot;,
+        &quot;quantity&quot;: 10
+      }
+    ]
+  }
+}
+201
+{
+  &quot;survivor&quot;: {
+    &quot;id&quot;: 1,
+    &quot;name&quot;: &quot;Daryl Dixon&quot;,
+    &quot;age&quot;: 30,
+    &quot;gender&quot;: &quot;male&quot;,
+    &quot;last_location&quot;: &quot;-16.642442,-49.402550&quot;,
+    &quot;links&quot;: {
+      &quot;self&quot;: &quot;/v1/survivors/1&quot;
+    }
+  }
+}</pre>
+            <pre class="wiki">POST /v1/survivors
+{
+  &quot;survivor&quot;: {
+    &quot;age&quot;: 30,
+    &quot;gender&quot;: &quot;male&quot;,
+    &quot;last_location&quot;: &quot;-16.642442,-49.402550&quot;
+  }
+}
+400
+{
+  &quot;errors&quot;: {
+    &quot;name&quot;: [
+      &quot;can&#39;t be blank&quot;
+    ]
+  }
+}</pre>
+
+          <h4>Errors</h4>
+            400
+            The survivor data has validation errors
+            <pre class="prettyprint lang-yaml">--- 
+...
+</pre>
+
+            <br>
+
+          <h4>Params</h4>
+          <ul>
+    <li>
+      <strong>survivor </strong>:
+      <small>
+        optional
+        
+          [ 
+<p>Must be a Hash</p>
+ ]
+      </small>
+      
+<p>Survivor info</p>
+
+    </li>
+    <ul>
+    <li>
+      <strong>name </strong>:
+      <small>
+        required
+        
+          [ 
+<p>Must be a String</p>
+ ]
+      </small>
+      
+<p>Survivor&#39;s name</p>
+
+    </li>
+    
+    <li>
+      <strong>age </strong>:
+      <small>
+        required
+        
+          [ 
+<p>Must be a Integer</p>
+ ]
+      </small>
+      
+<p>Survivor&#39;s title</p>
+
+    </li>
+    
+    <li>
+      <strong>gender </strong>:
+      <small>
+        required
+        
+          [ 
+<p>Must be one of: <code>female</code>, <code>male</code>, <code>other</code>.</p>
+ ]
+      </small>
+      
+<p>Survivor&#39;s gender</p>
+
+    </li>
+    
+    <li>
+      <strong>last_location </strong>:
+      <small>
+        required
+        
+          [ 
+<p>Must be a String</p>
+ ]
+      </small>
+      
+<p>Survivor&#39;s last location</p>
+
+    </li>
+    
+    <li>
+      <strong>items </strong>:
+      <small>
+        optional
+        
+          [ 
+<p>Must be a Hash</p>
+ ]
+      </small>
+      
+<p>Survivor&#39;s inventory of resources</p>
+
+    </li>
+    <ul>
+    <li>
+      <strong>name </strong>:
+      <small>
+        required
+        
+          [ 
+<p>Must be a String</p>
+ ]
+      </small>
+      
+<p>Resource&#39;s name</p>
+
+    </li>
+    
+    <li>
+      <strong>quantity </strong>:
+      <small>
+        optional
+        
+          [ 
+<p>Must be a Integer</p>
+ ]
+      </small>
+      
+<p>Resource&#39;s quantity</p>
+
+    </li>
+    
+</ul>
+
+</ul>
+
+</ul>
+
+      </div>
+      <hr/>
+
+      <h3 id="survivors-show">
+      <a href='#survivors'>Survivors</a> / <a href='#survivors-show'>show</a>
+      </h3>
+
+      <div>
+          <h4>
+              GET /v1/survivors/:id
+            <br>
+            <small>Get survivor info and its inventory</small>
+          </h4>
+      </div>
+
+      <div>
+        
+          <h4>Examples</h4>
+            <pre class="wiki">GET /v1/survivors/1
+201
+{
+  &quot;survivor&quot;: {
+    &quot;id&quot;: 1,
+    &quot;name&quot;: &quot;Daryl Dixon&quot;,
+    &quot;age&quot;: 30,
+    &quot;gender&quot;: &quot;male&quot;,
+    &quot;last_location&quot;: &quot;-16.642442,-49.402550&quot;,
+    &quot;links&quot;: {
+      &quot;self&quot;: &quot;/v1/survivors/1&quot;
+    },
+    &quot;inventory&quot;: [
+      {
+        &quot;resource&quot;: &quot;Water&quot;,
+        &quot;quantity&quot;: 10
+      },
+      {
+        &quot;resource&quot;: &quot;Food&quot;,
+        &quot;quantity&quot;: 10
+      },
+      {
+        &quot;resource&quot;: &quot;Medication&quot;,
+        &quot;quantity&quot;: 10
+      },
+      {
+        &quot;resource&quot;: &quot;Ammunition&quot;,
+        &quot;quantity&quot;: 0
+      }
+    ]
+  }
+}</pre>
+            <pre class="wiki">GET /v1/survivors/-1
+404</pre>
+
+          <h4>Errors</h4>
+            404
+            The survivor was not found
+            <pre class="prettyprint lang-yaml">--- 
+...
+</pre>
+
+            <br>
+
+          <h4>Params</h4>
+          <ul>
+    <li>
+      <strong>id </strong>:
+      <small>
+        required
+        
+          [ 
+<p>Must be a Integer</p>
+ ]
+      </small>
+      
+<p>Survivor&#39;s id</p>
+
+    </li>
+    
+</ul>
+
+      </div>
+      <hr/>
+
+      <h3 id="survivors-update_location">
+      <a href='#survivors'>Survivors</a> / <a href='#survivors-update_location'>update_location</a>
+      </h3>
+
+      <div>
+          <h4>
+              PUT /v1/survivors/:id/update_location
+            <br>
+            <small>Update survivor location</small>
+          </h4>
+      </div>
+
+      <div>
+        
+          <h4>Examples</h4>
+            <pre class="wiki">PUT /v1/survivors/1/update_location
+{
+  &quot;last_location&quot;: &quot;-23.681531,-46.875489&quot;
+}
+200</pre>
+            <pre class="wiki">PUT /v1/survivors/1/update_location
+{
+  &quot;last_location&quot;: &quot;&quot;
+}
+400
+{
+  &quot;errors&quot;: {
+    &quot;last_location&quot;: [
+      &quot;can&#39;t be blank&quot;
+    ]
+  }
+}</pre>
+            <pre class="wiki">PUT /v1/survivors/-1/update_location
+404</pre>
+
+          <h4>Errors</h4>
+            404
+            The survivor was not found
+            <pre class="prettyprint lang-yaml">--- 
+...
+</pre>
+
+            <br>
+            400
+            The last location has validation errors
+            <pre class="prettyprint lang-yaml">--- 
+...
+</pre>
+
+            <br>
+
+          <h4>Params</h4>
+          <ul>
+    <li>
+      <strong>id </strong>:
+      <small>
+        required
+        
+          [ 
+<p>Must be a Integer</p>
+ ]
+      </small>
+      
+<p>Survivor&#39;s id</p>
+
+    </li>
+    
+    <li>
+      <strong>last_location </strong>:
+      <small>
+        required
+        
+          [ 
+<p>Must be a String</p>
+ ]
+      </small>
+      
+<p>Survivor&#39;s last location</p>
+
+    </li>
+    
+</ul>
+
+      </div>
+      <hr/>
+
+      <h3 id="survivors-report_infected">
+      <a href='#survivors'>Survivors</a> / <a href='#survivors-report_infected'>report_infected</a>
+      </h3>
+
+      <div>
+          <h4>
+              PUT /v1/survivors/:id/report_infected
+            <br>
+            <small>Flag a survivor as infected</small>
+          </h4>
+      </div>
+
+      <div>
+        
+          <h4>Examples</h4>
+            <pre class="wiki">PUT /v1/survivors/1/report_infected
+{
+  &quot;survivor_id&quot;: 2
+}
+200</pre>
+            <pre class="wiki">PUT /v1/survivors/1/report_infected
+{
+  &quot;survivor_id&quot;: &quot;&quot;
+}
+400
+{
+  &quot;errors&quot;: {
+    &quot;survivor_id&quot;: [
+      &quot;Survivor does not exist&quot;
+    ]
+  }
+}</pre>
+            <pre class="wiki">PUT /v1/survivors/-1/report_infected
+404</pre>
+
+          <h4>Errors</h4>
+            404
+            The survivor was not found
+            <pre class="prettyprint lang-yaml">--- 
+...
+</pre>
+
+            <br>
+            400
+            There are some validations errors
+            <pre class="prettyprint lang-yaml">--- 
+...
+</pre>
+
+            <br>
+
+          <h4>Params</h4>
+          <ul>
+    <li>
+      <strong>id </strong>:
+      <small>
+        required
+        
+          [ 
+<p>Must be a Integer</p>
+ ]
+      </small>
+      
+<p>Survivor&#39;s id</p>
+
+    </li>
+    
+    <li>
+      <strong>survivor_id </strong>:
+      <small>
+        required
+        
+          [ 
+<p>Must be a String</p>
+ ]
+      </small>
+      
+<p>Survivor&#39;s id, who is infected</p>
+
+    </li>
+    
+</ul>
+
+      </div>
+      <hr/>
+
+      <h3 id="survivors-trade">
+      <a href='#survivors'>Survivors</a> / <a href='#survivors-trade'>trade</a>
+      </h3>
+
+      <div>
+          <h4>
+              PUT /v1/survivors/:id/trade
+            <br>
+            <small>Trade items with another survivor</small>
+          </h4>
+      </div>
+
+      <div>
+        
+          <h4>Examples</h4>
+            <pre class="wiki">PUT /v1/survivors/1/trade
+{
+  &quot;target_survivor_id&quot;: 2,
+  &quot;items&quot;: {
+    &quot;sending&quot;: {
+      &quot;Water&quot;: 1,
+      &quot;Medication&quot;: 1
+    },
+    &quot;requesting&quot;: {
+      &quot;Ammunition&quot;: 6
+    }
+  }
+}
+200</pre>
+            <pre class="wiki">PUT /v1/survivors/1/trade
+{
+  &quot;target_survivor_id&quot;: &quot;&quot;
+}
+400
+{
+  &quot;errors&quot;: {
+    &quot;target_survivor_id&quot;: [
+      &quot;can&#39;t be blank&quot;
+    ]
+  }
+}</pre>
+            <pre class="wiki">PUT /v1/survivors/-1/trade
+404</pre>
+
+          <h4>Errors</h4>
+            404
+            The survivor was not found
+            <pre class="prettyprint lang-yaml">--- 
+...
+</pre>
+
+            <br>
+            400
+            There are some validations errors
+            <pre class="prettyprint lang-yaml">--- 
+...
+</pre>
+
+            <br>
+
+          <h4>Params</h4>
+          <ul>
+    <li>
+      <strong>id </strong>:
+      <small>
+        required
+        
+          [ 
+<p>Must be a Integer</p>
+ ]
+      </small>
+      
+<p>Survivor&#39;s id</p>
+
+    </li>
+    
+    <li>
+      <strong>target_survivor_id </strong>:
+      <small>
+        required
+        
+          [ 
+<p>Must be a String</p>
+ ]
+      </small>
+      
+<p>Survivor&#39;s id, who will be the target of the trade</p>
+
+    </li>
+    
+    <li>
+      <strong>items </strong>:
+      <small>
+        required
+        
+          [ 
+<p>Must be a Hash</p>
+ ]
+      </small>
+      
+<p>Items to be traded</p>
+
+    </li>
+    <ul>
+    <li>
+      <strong>sending </strong>:
+      <small>
+        required
+        
+          [ 
+<p>Must be a Hash</p>
+ ]
+      </small>
+      
+<p>Items that will be sent</p>
+
+    </li>
+    
+    <li>
+      <strong>requesting </strong>:
+      <small>
+        required
+        
+          [ 
+<p>Must be a Integer</p>
+ ]
+      </small>
+      
+<p>Items that will be requested</p>
+
+    </li>
+    
+</ul>
+
+</ul>
+
+      </div>
+  </div>

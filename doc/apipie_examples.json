@@ -1,0 +1,255 @@
+{
+  "reports#infected_survivors" : [
+    {
+      "verb" : "GET",
+      "path" : "/v1/reports/infected_survivors",
+      "versions" : ["v1"],
+      "response_data" : { "percentage" : 30 },
+      "code" : "200",
+      "show_in_doc" : 1,
+      "recorded" : true
+    }
+  ],
+  "reports#non_infected_survivors" : [
+    {
+      "verb" : "GET",
+      "path" : "/v1/reports/non_infected_survivors",
+      "versions" : ["v1"],
+      "response_data" : { "percentage" : 70 },
+      "code" : "200",
+      "show_in_doc" : 1,
+      "recorded" : true
+    }
+  ],
+  "reports#resource_average_by_survivor" : [
+    {
+      "verb" : "GET",
+      "path" : "/v1/reports/resource_average_by_survivor",
+      "versions" : ["v1"],
+      "response_data" : {
+        "resources" : {
+          "Water": 10,
+          "Food": 32,
+          "Medication": 20,
+          "Ammunition": 15
+        }
+      },
+      "code" : "200",
+      "show_in_doc" : 1,
+      "recorded" : true
+    }
+  ],
+  "reports#points_lost_by_infection" : [
+    {
+      "verb" : "GET",
+      "path" : "/v1/reports/points_lost_by_infection",
+      "versions" : ["v1"],
+      "response_data" : { "points_lost" : 150 },
+      "code" : "200",
+      "show_in_doc" : 1,
+      "recorded" : true
+    }
+  ],
+  "survivors#create" : [
+    {
+      "verb" : "POST",
+      "path" : "/v1/survivors",
+      "versions" : ["v1"],
+      "request_data" : {
+        "survivor": {
+          "name": "Daryl Dixon",
+          "age": 30,
+          "gender": "male",
+          "last_location": "-16.642442,-49.402550",
+          "items": [
+            { "name": "Water", "quantity": 10 },
+            { "name": "Food", "quantity": 10 },
+            { "name": "Medication", "quantity": 10 }
+          ]
+        }
+      },
+      "response_data" : {
+        "survivor": {
+          "id": 1,
+          "name": "Daryl Dixon",
+          "age": 30,
+          "gender": "male",
+          "last_location": "-16.642442,-49.402550",
+          "links": { "self": "/v1/survivors/1"}
+        }
+      },
+      "code" : "201",
+      "show_in_doc" : 1,
+      "recorded" : true
+    },
+    {
+      "verb" : "POST",
+      "path" : "/v1/survivors",
+      "versions" : ["v1"],
+      "request_data" : {
+        "survivor": {
+          "age": 30,
+          "gender": "male",
+          "last_location": "-16.642442,-49.402550"
+        }
+      },
+      "response_data" : {
+        "errors": {
+          "name": ["can't be blank"]
+        }
+      },
+      "code" : "400",
+      "show_in_doc" : 1,
+      "recorded" : true
+    }
+  ],
+  "survivors#show" : [
+    {
+      "verb" : "GET",
+      "path" : "/v1/survivors/1",
+      "versions" : ["v1"],
+      "response_data" : {
+        "survivor": {
+          "id": 1,
+          "name": "Daryl Dixon",
+          "age": 30,
+          "gender": "male",
+          "last_location": "-16.642442,-49.402550",
+          "links": { "self": "/v1/survivors/1"},
+          "inventory": [
+            { "resource": "Water", "quantity": 10 },
+            { "resource": "Food", "quantity": 10 },
+            { "resource": "Medication", "quantity": 10 },
+            { "resource": "Ammunition", "quantity": 0 }
+          ]
+        }
+      },
+      "code" : "201",
+      "show_in_doc" : 1,
+      "recorded" : true
+    },
+    {
+      "verb" : "GET",
+      "path" : "/v1/survivors/-1",
+      "versions" : ["v1"],
+      "code" : "404",
+      "show_in_doc" : 1,
+      "recorded" : true
+    }
+  ],
+  "survivors#update_location" : [
+    {
+      "verb" : "PUT",
+      "path" : "/v1/survivors/1/update_location",
+      "versions" : ["v1"],
+      "request_data" : {
+        "last_location": "-23.681531,-46.875489"
+      },
+      "code" : "200",
+      "show_in_doc" : 1,
+      "recorded" : true
+    },
+    {
+      "verb" : "PUT",
+      "path" : "/v1/survivors/1/update_location",
+      "versions" : ["v1"],
+      "request_data" : {
+        "last_location": ""
+      },
+      "response_data" : {
+        "errors": {
+          "last_location": ["can't be blank"]
+        }
+      },
+      "code" : "400",
+      "show_in_doc" : 1,
+      "recorded" : true
+    },
+    {
+      "verb" : "PUT",
+      "path" : "/v1/survivors/-1/update_location",
+      "versions" : ["v1"],
+      "code" : "404",
+      "show_in_doc" : 1,
+      "recorded" : true
+    }
+  ],
+  "survivors#report_infected" : [
+    {
+      "verb" : "PUT",
+      "path" : "/v1/survivors/1/report_infected",
+      "versions" : ["v1"],
+      "request_data" : {
+        "survivor_id": 2
+      },
+      "code" : "200",
+      "show_in_doc" : 1,
+      "recorded" : true
+    },
+    {
+      "verb" : "PUT",
+      "path" : "/v1/survivors/1/report_infected",
+      "versions" : ["v1"],
+      "request_data" : {
+        "survivor_id": ""
+      },
+      "response_data" : {
+        "errors": {
+          "survivor_id": ["Survivor does not exist"]
+        }
+      },
+      "code" : "400",
+      "show_in_doc" : 1,
+      "recorded" : true
+    },
+    {
+      "verb" : "PUT",
+      "path" : "/v1/survivors/-1/report_infected",
+      "versions" : ["v1"],
+      "code" : "404",
+      "show_in_doc" : 1,
+      "recorded" : true
+    }
+  ],
+  "survivors#trade" : [
+    {
+      "verb" : "PUT",
+      "path" : "/v1/survivors/1/trade",
+      "versions" : ["v1"],
+      "request_data" : {
+        "target_survivor_id": 2,
+        "items": {
+          "sending": { "Water": 1, "Medication": 1 },
+          "requesting": { "Ammunition": 6 }
+        }
+      },
+      "code" : "200",
+      "show_in_doc" : 1,
+      "recorded" : true
+    },
+    {
+      "verb" : "PUT",
+      "path" : "/v1/survivors/1/trade",
+      "versions" : ["v1"],
+      "request_data" : {
+        "target_survivor_id": ""
+      },
+      "response_data" : {
+        "errors": {
+          "target_survivor_id": ["can't be blank"]
+        }
+      },
+      "code" : "400",
+      "show_in_doc" : 1,
+      "recorded" : true
+    },
+    {
+      "verb" : "PUT",
+      "path" : "/v1/survivors/-1/trade",
+      "versions" : ["v1"],
+      "code" : "404",
+      "show_in_doc" : 1,
+      "recorded" : true
+    }
+  ]
+}

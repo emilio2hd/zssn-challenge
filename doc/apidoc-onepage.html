@@ -1,0 +1,1128 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>API documentation</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link type='text/css' rel='stylesheet' href='./apidoc/stylesheets/bundled/bootstrap.min.css'/>
+<link type='text/css' rel='stylesheet' href='./apidoc/stylesheets/bundled/prettify.css'/>
+<link type='text/css' rel='stylesheet' href='./apidoc/stylesheets/bundled/bootstrap-responsive.min.css'/>
+  <link type='text/css' rel='stylesheet' href='./apidoc/stylesheets/application.css'/>
+  <!-- IE6-8 support of HTML5 elements -->
+  <!--[if lt IE 9]>
+    <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+</head>
+<body>
+  <div class="container-fluid">
+    <div class="row-fluid">
+      <div id='container'>
+          <h4><a href='#reports'>Reports</a></h4>
+  <ul>
+      <li><a href='#reports-infected_survivors'>infected_survivors</a></li>
+      <li><a href='#reports-non_infected_survivors'>non_infected_survivors</a></li>
+      <li><a href='#reports-resource_average_by_survivor'>resource_average_by_survivor</a></li>
+      <li><a href='#reports-points_lost_by_infection'>points_lost_by_infection</a></li>
+  </ul>
+  <h4><a href='#survivors'>Survivors</a></h4>
+  <ul>
+      <li><a href='#survivors-create'>create</a></li>
+      <li><a href='#survivors-show'>show</a></li>
+      <li><a href='#survivors-update_location'>update_location</a></li>
+      <li><a href='#survivors-report_infected'>report_infected</a></li>
+      <li><a href='#survivors-trade'>trade</a></li>
+  </ul>
+
+
+
+<div>
+<p>Zombie Survival Social Network</p>
+</div>
+
+<hr>
+
+
+  <ul class='breadcrumb'  id='reports'>
+    <li><a href='#'>Zssn</a><span class='divider'>/</span></li>
+    <li class='active'>Reports</li>
+  </ul>
+
+  <div class='page-header'>
+    <h1>
+      <a href='#reports'>Reports</a><br>
+      <small></small>
+    </h1>
+  </div>
+
+
+  <div class='accordion' id='accordion'>
+
+      <hr>
+
+      <ul class='breadcrumb' id='reports-infected_survivors'>
+        <li>
+          <a href='#'>Zssn</a>
+          <span class='divider'>/</span>
+        </li>
+        <li>
+          <a href='#reports'>Reports</a>
+          <span class='divider'>/</span>
+        </li>
+        <li class='active'>infected_survivors</li>
+      </ul>
+
+      <div>
+          <h3>
+            <a href='#reports-infected_survivors'>
+              GET /v1/reports/infected_survivors
+            </a><br>
+            <small>Percentage of infected survivors.</small>
+          </h3>
+      </div>
+
+      <div>
+        
+          <h2>Examples</h2>
+            <pre>GET /v1/reports/infected_survivors
+200
+{
+  &quot;percentage&quot;: 30
+}</pre>
+
+
+      </div>
+      <hr>
+
+      <ul class='breadcrumb' id='reports-non_infected_survivors'>
+        <li>
+          <a href='#'>Zssn</a>
+          <span class='divider'>/</span>
+        </li>
+        <li>
+          <a href='#reports'>Reports</a>
+          <span class='divider'>/</span>
+        </li>
+        <li class='active'>non_infected_survivors</li>
+      </ul>
+
+      <div>
+          <h3>
+            <a href='#reports-non_infected_survivors'>
+              GET /v1/reports/non_infected_survivors
+            </a><br>
+            <small>Percentage of non-infected survivors.</small>
+          </h3>
+      </div>
+
+      <div>
+        
+          <h2>Examples</h2>
+            <pre>GET /v1/reports/non_infected_survivors
+200
+{
+  &quot;percentage&quot;: 70
+}</pre>
+
+
+      </div>
+      <hr>
+
+      <ul class='breadcrumb' id='reports-resource_average_by_survivor'>
+        <li>
+          <a href='#'>Zssn</a>
+          <span class='divider'>/</span>
+        </li>
+        <li>
+          <a href='#reports'>Reports</a>
+          <span class='divider'>/</span>
+        </li>
+        <li class='active'>resource_average_by_survivor</li>
+      </ul>
+
+      <div>
+          <h3>
+            <a href='#reports-resource_average_by_survivor'>
+              GET /v1/reports/resource_average_by_survivor
+            </a><br>
+            <small>List of resources and their average amount by survivor</small>
+          </h3>
+      </div>
+
+      <div>
+        
+          <h2>Examples</h2>
+            <pre>GET /v1/reports/resource_average_by_survivor
+200
+{
+  &quot;resources&quot;: {
+    &quot;Water&quot;: 10,
+    &quot;Food&quot;: 32,
+    &quot;Medication&quot;: 20,
+    &quot;Ammunition&quot;: 15
+  }
+}</pre>
+
+
+      </div>
+      <hr>
+
+      <ul class='breadcrumb' id='reports-points_lost_by_infection'>
+        <li>
+          <a href='#'>Zssn</a>
+          <span class='divider'>/</span>
+        </li>
+        <li>
+          <a href='#reports'>Reports</a>
+          <span class='divider'>/</span>
+        </li>
+        <li class='active'>points_lost_by_infection</li>
+      </ul>
+
+      <div>
+          <h3>
+            <a href='#reports-points_lost_by_infection'>
+              GET /v1/reports/points_lost_by_infection
+            </a><br>
+            <small>Points lost because of infected survivor.</small>
+          </h3>
+      </div>
+
+      <div>
+        
+          <h2>Examples</h2>
+            <pre>GET /v1/reports/points_lost_by_infection
+200
+{
+  &quot;points_lost&quot;: 150
+}</pre>
+
+
+      </div>
+  </div>
+
+  <ul class='breadcrumb'  id='survivors'>
+    <li><a href='#'>Zssn</a><span class='divider'>/</span></li>
+    <li class='active'>Survivors</li>
+  </ul>
+
+  <div class='page-header'>
+    <h1>
+      <a href='#survivors'>Survivors</a><br>
+      <small></small>
+    </h1>
+  </div>
+
+
+  <div class='accordion' id='accordion'>
+
+      <hr>
+
+      <ul class='breadcrumb' id='survivors-create'>
+        <li>
+          <a href='#'>Zssn</a>
+          <span class='divider'>/</span>
+        </li>
+        <li>
+          <a href='#survivors'>Survivors</a>
+          <span class='divider'>/</span>
+        </li>
+        <li class='active'>create</li>
+      </ul>
+
+      <div>
+          <h3>
+            <a href='#survivors-create'>
+              POST /v1/survivors
+            </a><br>
+            <small>Add a new survivor to the database</small>
+          </h3>
+      </div>
+
+      <div>
+        
+          <h2>Examples</h2>
+            <pre>POST /v1/survivors
+{
+  &quot;survivor&quot;: {
+    &quot;name&quot;: &quot;Daryl Dixon&quot;,
+    &quot;age&quot;: 30,
+    &quot;gender&quot;: &quot;male&quot;,
+    &quot;last_location&quot;: &quot;-16.642442,-49.402550&quot;,
+    &quot;items&quot;: [
+      {
+        &quot;name&quot;: &quot;Water&quot;,
+        &quot;quantity&quot;: 10
+      },
+      {
+        &quot;name&quot;: &quot;Food&quot;,
+        &quot;quantity&quot;: 10
+      },
+      {
+        &quot;name&quot;: &quot;Medication&quot;,
+        &quot;quantity&quot;: 10
+      }
+    ]
+  }
+}
+201
+{
+  &quot;survivor&quot;: {
+    &quot;id&quot;: 1,
+    &quot;name&quot;: &quot;Daryl Dixon&quot;,
+    &quot;age&quot;: 30,
+    &quot;gender&quot;: &quot;male&quot;,
+    &quot;last_location&quot;: &quot;-16.642442,-49.402550&quot;,
+    &quot;links&quot;: {
+      &quot;self&quot;: &quot;/v1/survivors/1&quot;
+    }
+  }
+}</pre>
+            <pre>POST /v1/survivors
+{
+  &quot;survivor&quot;: {
+    &quot;age&quot;: 30,
+    &quot;gender&quot;: &quot;male&quot;,
+    &quot;last_location&quot;: &quot;-16.642442,-49.402550&quot;
+  }
+}
+400
+{
+  &quot;errors&quot;: {
+    &quot;name&quot;: [
+      &quot;can&#39;t be blank&quot;
+    ]
+  }
+}</pre>
+
+          <h2>Errors</h2>
+          
+<table class="table table-bordered">
+	<thead>
+		<tr>
+			<th>Code</th>
+			<th>Description</th>
+			
+		</tr>
+	</thead>
+
+	<tbody>
+			<tr>
+				<td><span class="label"> 400 </span></td>
+				<td>The survivor data has validation errors</td>
+			</tr>
+	</tbody>
+</table>
+
+
+          <h2>Params</h2>
+          <table class='table'>
+            <thead>
+              <tr>
+                <th>Param name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>survivor </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Survivor info</p>
+
+        <p><strong>Validations:</strong></p>
+        <ul>
+            <li>
+<p>Must be a Hash</p>
+</li>
+        </ul>
+
+    </td>
+
+  </tr>
+
+    <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>survivor[name] </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Survivor&#39;s name</p>
+
+        <p><strong>Validations:</strong></p>
+        <ul>
+            <li>
+<p>Must be a String</p>
+</li>
+        </ul>
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>survivor[age] </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Survivor&#39;s title</p>
+
+        <p><strong>Validations:</strong></p>
+        <ul>
+            <li>
+<p>Must be a Integer</p>
+</li>
+        </ul>
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>survivor[gender] </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Survivor&#39;s gender</p>
+
+        <p><strong>Validations:</strong></p>
+        <ul>
+            <li>
+<p>Must be one of: <code>female</code>, <code>male</code>, <code>other</code>.</p>
+</li>
+        </ul>
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>survivor[last_location] </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Survivor&#39;s last location</p>
+
+        <p><strong>Validations:</strong></p>
+        <ul>
+            <li>
+<p>Must be a String</p>
+</li>
+        </ul>
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>survivor[items] </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Survivor&#39;s inventory of resources</p>
+
+        <p><strong>Validations:</strong></p>
+        <ul>
+            <li>
+<p>Must be a Hash</p>
+</li>
+        </ul>
+
+    </td>
+
+  </tr>
+
+    <tr style='background-color:rgb(245,245,245);'>
+    <td>
+      <strong>survivor[items][name] </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Resource&#39;s name</p>
+
+        <p><strong>Validations:</strong></p>
+        <ul>
+            <li>
+<p>Must be a String</p>
+</li>
+        </ul>
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(245,245,245);'>
+    <td>
+      <strong>survivor[items][quantity] </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Resource&#39;s quantity</p>
+
+        <p><strong>Validations:</strong></p>
+        <ul>
+            <li>
+<p>Must be a Integer</p>
+</li>
+        </ul>
+
+    </td>
+
+  </tr>
+
+  
+
+
+
+            </tbody>
+          </table>
+      </div>
+      <hr>
+
+      <ul class='breadcrumb' id='survivors-show'>
+        <li>
+          <a href='#'>Zssn</a>
+          <span class='divider'>/</span>
+        </li>
+        <li>
+          <a href='#survivors'>Survivors</a>
+          <span class='divider'>/</span>
+        </li>
+        <li class='active'>show</li>
+      </ul>
+
+      <div>
+          <h3>
+            <a href='#survivors-show'>
+              GET /v1/survivors/:id
+            </a><br>
+            <small>Get survivor info and its inventory</small>
+          </h3>
+      </div>
+
+      <div>
+        
+          <h2>Examples</h2>
+            <pre>GET /v1/survivors/1
+201
+{
+  &quot;survivor&quot;: {
+    &quot;id&quot;: 1,
+    &quot;name&quot;: &quot;Daryl Dixon&quot;,
+    &quot;age&quot;: 30,
+    &quot;gender&quot;: &quot;male&quot;,
+    &quot;last_location&quot;: &quot;-16.642442,-49.402550&quot;,
+    &quot;links&quot;: {
+      &quot;self&quot;: &quot;/v1/survivors/1&quot;
+    },
+    &quot;inventory&quot;: [
+      {
+        &quot;resource&quot;: &quot;Water&quot;,
+        &quot;quantity&quot;: 10
+      },
+      {
+        &quot;resource&quot;: &quot;Food&quot;,
+        &quot;quantity&quot;: 10
+      },
+      {
+        &quot;resource&quot;: &quot;Medication&quot;,
+        &quot;quantity&quot;: 10
+      },
+      {
+        &quot;resource&quot;: &quot;Ammunition&quot;,
+        &quot;quantity&quot;: 0
+      }
+    ]
+  }
+}</pre>
+            <pre>GET /v1/survivors/-1
+404</pre>
+
+          <h2>Errors</h2>
+          
+<table class="table table-bordered">
+	<thead>
+		<tr>
+			<th>Code</th>
+			<th>Description</th>
+			
+		</tr>
+	</thead>
+
+	<tbody>
+			<tr>
+				<td><span class="label label-inverse"> 404 </span></td>
+				<td>The survivor was not found</td>
+			</tr>
+	</tbody>
+</table>
+
+
+          <h2>Params</h2>
+          <table class='table'>
+            <thead>
+              <tr>
+                <th>Param name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>id </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Survivor&#39;s id</p>
+
+        <p><strong>Validations:</strong></p>
+        <ul>
+            <li>
+<p>Must be a Integer</p>
+</li>
+        </ul>
+
+    </td>
+
+  </tr>
+
+  
+
+            </tbody>
+          </table>
+      </div>
+      <hr>
+
+      <ul class='breadcrumb' id='survivors-update_location'>
+        <li>
+          <a href='#'>Zssn</a>
+          <span class='divider'>/</span>
+        </li>
+        <li>
+          <a href='#survivors'>Survivors</a>
+          <span class='divider'>/</span>
+        </li>
+        <li class='active'>update_location</li>
+      </ul>
+
+      <div>
+          <h3>
+            <a href='#survivors-update_location'>
+              PUT /v1/survivors/:id/update_location
+            </a><br>
+            <small>Update survivor location</small>
+          </h3>
+      </div>
+
+      <div>
+        
+          <h2>Examples</h2>
+            <pre>PUT /v1/survivors/1/update_location
+{
+  &quot;last_location&quot;: &quot;-23.681531,-46.875489&quot;
+}
+200</pre>
+            <pre>PUT /v1/survivors/1/update_location
+{
+  &quot;last_location&quot;: &quot;&quot;
+}
+400
+{
+  &quot;errors&quot;: {
+    &quot;last_location&quot;: [
+      &quot;can&#39;t be blank&quot;
+    ]
+  }
+}</pre>
+            <pre>PUT /v1/survivors/-1/update_location
+404</pre>
+
+          <h2>Errors</h2>
+          
+<table class="table table-bordered">
+	<thead>
+		<tr>
+			<th>Code</th>
+			<th>Description</th>
+			
+		</tr>
+	</thead>
+
+	<tbody>
+			<tr>
+				<td><span class="label label-inverse"> 404 </span></td>
+				<td>The survivor was not found</td>
+			</tr>
+			<tr>
+				<td><span class="label"> 400 </span></td>
+				<td>The last location has validation errors</td>
+			</tr>
+	</tbody>
+</table>
+
+
+          <h2>Params</h2>
+          <table class='table'>
+            <thead>
+              <tr>
+                <th>Param name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>id </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Survivor&#39;s id</p>
+
+        <p><strong>Validations:</strong></p>
+        <ul>
+            <li>
+<p>Must be a Integer</p>
+</li>
+        </ul>
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>last_location </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Survivor&#39;s last location</p>
+
+        <p><strong>Validations:</strong></p>
+        <ul>
+            <li>
+<p>Must be a String</p>
+</li>
+        </ul>
+
+    </td>
+
+  </tr>
+
+  
+
+            </tbody>
+          </table>
+      </div>
+      <hr>
+
+      <ul class='breadcrumb' id='survivors-report_infected'>
+        <li>
+          <a href='#'>Zssn</a>
+          <span class='divider'>/</span>
+        </li>
+        <li>
+          <a href='#survivors'>Survivors</a>
+          <span class='divider'>/</span>
+        </li>
+        <li class='active'>report_infected</li>
+      </ul>
+
+      <div>
+          <h3>
+            <a href='#survivors-report_infected'>
+              PUT /v1/survivors/:id/report_infected
+            </a><br>
+            <small>Flag a survivor as infected</small>
+          </h3>
+      </div>
+
+      <div>
+        
+          <h2>Examples</h2>
+            <pre>PUT /v1/survivors/1/report_infected
+{
+  &quot;survivor_id&quot;: 2
+}
+200</pre>
+            <pre>PUT /v1/survivors/1/report_infected
+{
+  &quot;survivor_id&quot;: &quot;&quot;
+}
+400
+{
+  &quot;errors&quot;: {
+    &quot;survivor_id&quot;: [
+      &quot;Survivor does not exist&quot;
+    ]
+  }
+}</pre>
+            <pre>PUT /v1/survivors/-1/report_infected
+404</pre>
+
+          <h2>Errors</h2>
+          
+<table class="table table-bordered">
+	<thead>
+		<tr>
+			<th>Code</th>
+			<th>Description</th>
+			
+		</tr>
+	</thead>
+
+	<tbody>
+			<tr>
+				<td><span class="label label-inverse"> 404 </span></td>
+				<td>The survivor was not found</td>
+			</tr>
+			<tr>
+				<td><span class="label"> 400 </span></td>
+				<td>There are some validations errors</td>
+			</tr>
+	</tbody>
+</table>
+
+
+          <h2>Params</h2>
+          <table class='table'>
+            <thead>
+              <tr>
+                <th>Param name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>id </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Survivor&#39;s id</p>
+
+        <p><strong>Validations:</strong></p>
+        <ul>
+            <li>
+<p>Must be a Integer</p>
+</li>
+        </ul>
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>survivor_id </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Survivor&#39;s id, who is infected</p>
+
+        <p><strong>Validations:</strong></p>
+        <ul>
+            <li>
+<p>Must be a String</p>
+</li>
+        </ul>
+
+    </td>
+
+  </tr>
+
+  
+
+            </tbody>
+          </table>
+      </div>
+      <hr>
+
+      <ul class='breadcrumb' id='survivors-trade'>
+        <li>
+          <a href='#'>Zssn</a>
+          <span class='divider'>/</span>
+        </li>
+        <li>
+          <a href='#survivors'>Survivors</a>
+          <span class='divider'>/</span>
+        </li>
+        <li class='active'>trade</li>
+      </ul>
+
+      <div>
+          <h3>
+            <a href='#survivors-trade'>
+              PUT /v1/survivors/:id/trade
+            </a><br>
+            <small>Trade items with another survivor</small>
+          </h3>
+      </div>
+
+      <div>
+        
+          <h2>Examples</h2>
+            <pre>PUT /v1/survivors/1/trade
+{
+  &quot;target_survivor_id&quot;: 2,
+  &quot;items&quot;: {
+    &quot;sending&quot;: {
+      &quot;Water&quot;: 1,
+      &quot;Medication&quot;: 1
+    },
+    &quot;requesting&quot;: {
+      &quot;Ammunition&quot;: 6
+    }
+  }
+}
+200</pre>
+            <pre>PUT /v1/survivors/1/trade
+{
+  &quot;target_survivor_id&quot;: &quot;&quot;
+}
+400
+{
+  &quot;errors&quot;: {
+    &quot;target_survivor_id&quot;: [
+      &quot;can&#39;t be blank&quot;
+    ]
+  }
+}</pre>
+            <pre>PUT /v1/survivors/-1/trade
+404</pre>
+
+          <h2>Errors</h2>
+          
+<table class="table table-bordered">
+	<thead>
+		<tr>
+			<th>Code</th>
+			<th>Description</th>
+			
+		</tr>
+	</thead>
+
+	<tbody>
+			<tr>
+				<td><span class="label label-inverse"> 404 </span></td>
+				<td>The survivor was not found</td>
+			</tr>
+			<tr>
+				<td><span class="label"> 400 </span></td>
+				<td>There are some validations errors</td>
+			</tr>
+	</tbody>
+</table>
+
+
+          <h2>Params</h2>
+          <table class='table'>
+            <thead>
+              <tr>
+                <th>Param name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>id </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Survivor&#39;s id</p>
+
+        <p><strong>Validations:</strong></p>
+        <ul>
+            <li>
+<p>Must be a Integer</p>
+</li>
+        </ul>
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>target_survivor_id </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Survivor&#39;s id, who will be the target of the trade</p>
+
+        <p><strong>Validations:</strong></p>
+        <ul>
+            <li>
+<p>Must be a String</p>
+</li>
+        </ul>
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>items </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Items to be traded</p>
+
+        <p><strong>Validations:</strong></p>
+        <ul>
+            <li>
+<p>Must be a Hash</p>
+</li>
+        </ul>
+
+    </td>
+
+  </tr>
+
+    <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>items[sending] </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Items that will be sent</p>
+
+        <p><strong>Validations:</strong></p>
+        <ul>
+            <li>
+<p>Must be a Hash</p>
+</li>
+        </ul>
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>items[requesting] </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Items that will be requested</p>
+
+        <p><strong>Validations:</strong></p>
+        <ul>
+            <li>
+<p>Must be a Integer</p>
+</li>
+        </ul>
+
+    </td>
+
+  </tr>
+
+  
+
+
+            </tbody>
+          </table>
+      </div>
+  </div>
+
+
+        
+      </div>
+    </div>
+    <hr>
+    <footer></footer>
+  </div>
+  <script type='text/javascript' src='./apidoc/javascripts/bundled/jquery.js'></script>
+<script type='text/javascript' src='./apidoc/javascripts/bundled/bootstrap-collapse.js'></script>
+<script type='text/javascript' src='./apidoc/javascripts/bundled/prettify.js'></script>
+<script type='text/javascript' src='./apidoc/javascripts/apipie.js'></script>
+</body>
+</html>

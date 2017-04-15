@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>API documentation</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link type='text/css' rel='stylesheet' href='../apidoc/stylesheets/bundled/bootstrap.min.css'/>
+<link type='text/css' rel='stylesheet' href='../apidoc/stylesheets/bundled/prettify.css'/>
+<link type='text/css' rel='stylesheet' href='../apidoc/stylesheets/bundled/bootstrap-responsive.min.css'/>
+  <link type='text/css' rel='stylesheet' href='../apidoc/stylesheets/application.css'/>
+  <!-- IE6-8 support of HTML5 elements -->
+  <!--[if lt IE 9]>
+    <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+</head>
+<body>
+  <div class="container-fluid">
+    <div class="row-fluid">
+      <div id='container'>
+        <ul class='breadcrumb'>
+  <li>
+    <a href='../apidoc.html'>Zssn v1</a>
+    <span class='divider'>/</span>
+  </li>
+  <li class='active'>
+    Reports
+    
+  </li>
+  
+</ul>
+
+<div class='page-header'>
+  <h1>
+    Reports
+    <br>
+    <small></small>
+  </h1>
+</div>
+
+
+
+
+
+
+<div class='accordion' id='accordion'>
+
+    <hr>
+    <div class='pull-right small'>
+      <a href='../apidoc/reports/infected_survivors.html'> >>> </a>
+    </div>
+    <div>
+        <h2>
+          <a href='#description-infected_survivors'
+           class='accordion-toggle'
+           data-toggle='collapse'
+           data-parent='#accordion'>
+            GET /v1/reports/infected_survivors
+          </a>
+          <br>
+          <small>Percentage of infected survivors.</small>
+        </h2>
+    </div>
+
+
+    <div id='description-infected_survivors' class='collapse accordion-body'>
+      
+
+
+
+
+  <h3>Examples</h3>
+    <pre class="prettyprint">GET /v1/reports/infected_survivors
+200
+{
+  &quot;percentage&quot;: 30
+}</pre>
+
+
+
+
+    </div>
+    <hr>
+    <div class='pull-right small'>
+      <a href='../apidoc/reports/non_infected_survivors.html'> >>> </a>
+    </div>
+    <div>
+        <h2>
+          <a href='#description-non_infected_survivors'
+           class='accordion-toggle'
+           data-toggle='collapse'
+           data-parent='#accordion'>
+            GET /v1/reports/non_infected_survivors
+          </a>
+          <br>
+          <small>Percentage of non-infected survivors.</small>
+        </h2>
+    </div>
+
+
+    <div id='description-non_infected_survivors' class='collapse accordion-body'>
+      
+
+
+
+
+  <h3>Examples</h3>
+    <pre class="prettyprint">GET /v1/reports/non_infected_survivors
+200
+{
+  &quot;percentage&quot;: 70
+}</pre>
+
+
+
+
+    </div>
+    <hr>
+    <div class='pull-right small'>
+      <a href='../apidoc/reports/resource_average_by_survivor.html'> >>> </a>
+    </div>
+    <div>
+        <h2>
+          <a href='#description-resource_average_by_survivor'
+           class='accordion-toggle'
+           data-toggle='collapse'
+           data-parent='#accordion'>
+            GET /v1/reports/resource_average_by_survivor
+          </a>
+          <br>
+          <small>List of resources and their average amount by survivor</small>
+        </h2>
+    </div>
+
+
+    <div id='description-resource_average_by_survivor' class='collapse accordion-body'>
+      
+
+
+
+
+  <h3>Examples</h3>
+    <pre class="prettyprint">GET /v1/reports/resource_average_by_survivor
+200
+{
+  &quot;resources&quot;: {
+    &quot;Water&quot;: 10,
+    &quot;Food&quot;: 32,
+    &quot;Medication&quot;: 20,
+    &quot;Ammunition&quot;: 15
+  }
+}</pre>
+
+
+
+
+    </div>
+    <hr>
+    <div class='pull-right small'>
+      <a href='../apidoc/reports/points_lost_by_infection.html'> >>> </a>
+    </div>
+    <div>
+        <h2>
+          <a href='#description-points_lost_by_infection'
+           class='accordion-toggle'
+           data-toggle='collapse'
+           data-parent='#accordion'>
+            GET /v1/reports/points_lost_by_infection
+          </a>
+          <br>
+          <small>Points lost because of infected survivor.</small>
+        </h2>
+    </div>
+
+
+    <div id='description-points_lost_by_infection' class='collapse accordion-body'>
+      
+
+
+
+
+  <h3>Examples</h3>
+    <pre class="prettyprint">GET /v1/reports/points_lost_by_infection
+200
+{
+  &quot;points_lost&quot;: 150
+}</pre>
+
+
+
+
+    </div>
+</div>
+
+
+        
+      </div>
+    </div>
+    <hr>
+    <footer></footer>
+  </div>
+  <script type='text/javascript' src='../apidoc/javascripts/bundled/jquery.js'></script>
+<script type='text/javascript' src='../apidoc/javascripts/bundled/bootstrap-collapse.js'></script>
+<script type='text/javascript' src='../apidoc/javascripts/bundled/prettify.js'></script>
+<script type='text/javascript' src='../apidoc/javascripts/apipie.js'></script>
+</body>
+</html>

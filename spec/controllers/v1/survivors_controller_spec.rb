@@ -45,7 +45,7 @@ RSpec.describe V1::SurvivorsController, type: :controller do
 
       it 'should get http status as unprocessable_entity' do
         post :create, params: { survivor: invalid_attributes }
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:bad_request)
       end
 
       it 'should not save any item' do
@@ -109,7 +109,7 @@ RSpec.describe V1::SurvivorsController, type: :controller do
       let(:update_params) { { id: survivor.id, last_location: '' } }
 
       it 'should get http status as unprocessable_entity' do
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:bad_request)
       end
 
       it 'should contains validation errors in response body' do
