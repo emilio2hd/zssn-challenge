@@ -16,7 +16,7 @@ class TradeForm
   attr_accessor :target_survivor_id, :origin_survivor_id, :items
 
   validates :target_survivor_id, :origin_survivor_id, :items, presence: true
-  validate :validate_survivor_alive, :validate_amount_of_points
+  validate :validate_survivor_alive, :validate_items
 
   def perform
     return false unless valid?
@@ -26,23 +26,36 @@ class TradeForm
 
   private
 
+  def validate_items
+    validate_item_format
+    validate_amount_of_points
+  end
+
   def validate_survivor_alive
     errors.add(:target_survivor_id, :not_alive) unless Survivor.only_alive.exists?(target_survivor_id)
   end
 
+  def validate_item_format
+    return errors.add(:items, :not_a_map) unless items.is_a? Hash
+    return errors.add(:items, :not_a_map_with_sending_requesting_keys) unless items.key?(:sending) || items.key?(:requesting)
+    items[:sending] = Hash.try_convert(items[:sending]) || {}
+    items[:requesting] = Hash.try_convert(items[:requesting]) || {}
+    errors.add(:items, :sending_requesting_empty) if items[:sending].empty? || items[:requesting].empty?
+  end
+
   def validate_amount_of_points
-    return if items.nil?
+    return if errors.key? :items
 
     resource_name_list = (items[:sending].keys + items[:requesting].keys).uniq
     resources = Resource.where(name: resource_name_list)
 
     create_trade_items = lambda do |resource_name, amount|
       resource = resources.find { |item| item.name == resource_name }
-      TradeItem.new(resource.id, resource.points, amount)
+      TradeItem.new(resource.id, resource.points, amount) unless resource.nil?
     end
 
-    @sending_trade_items = items[:sending].collect(&create_trade_items)
-    @requesting_trade_items = items[:requesting].collect(&create_trade_items)
+    @sending_trade_items = items[:sending].collect(&create_trade_items).compact
+    @requesting_trade_items = items[:requesting].collect(&create_trade_items).compact
 
     requesting_points = @sending_trade_items.sum(&:total_points)
     sending_points = @requesting_trade_items.sum(&:total_points)

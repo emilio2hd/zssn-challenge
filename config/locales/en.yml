@@ -33,5 +33,8 @@ en:
           attributes:
             items:
               different_amount_points: "The amount of points is different"
+              not_a_map: "Must send a map"
+              not_a_map_with_sending_requesting_keys: "Items must have keys 'sending' and 'requesting'"
+              sending_requesting_empty: "Keys 'sending' and 'requesting' can't be empty"
             target_survivor_id:
               not_alive: "Survivor is not alive"

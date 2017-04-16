@@ -41,6 +41,30 @@ RSpec.describe TradeForm, type: :model do
       end
     end
 
+    context 'when the item property exists, there is not sending nor requesting' do
+      it 'should be invalid' do
+        trade_params = { origin_survivor_id: origin.id, target_survivor_id: target.id, items: {} }
+
+        trade = TradeForm.new(trade_params)
+
+        expect(trade.valid?).to be_falsey
+      end
+    end
+
+    context 'when the item property, has sending and requesting empty' do
+      it 'should be invalid' do
+        trade_params = {
+          origin_survivor_id: origin.id,
+          target_survivor_id: target.id,
+          items: { sending: {}, requesting: {} }
+        }
+
+        trade = TradeForm.new(trade_params)
+
+        expect(trade.valid?).to be_falsey
+      end
+    end
+
     context 'when everything is correct' do
       before do
         create(:water)
