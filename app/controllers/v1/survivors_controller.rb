@@ -55,21 +55,14 @@ module V1
     param :id, Integer, desc: 'Survivor\'s id', required: true
     param :survivor_id, String, desc: 'Survivor\'s id, who is infected', required: true
     def report_infected
-      infected = Survivor.find_by_id params.permit(:survivor_id)['survivor_id']
+      form = ReportInfectedForm.new(report_infected_params.merge(survivor_reporter_id: @survivor.id))
 
-      unless infected
-        return render json: { errors: { survivor_id: I18n.t('message.error.survivor.not_found') } }, status: :bad_request
-      end
-
-      flag = infected.infected_flags.build(reporter: @survivor)
-      if flag.valid?
-        infected.infected_flags << flag
+      if form.valid?
+        form.infected.infected_flags.create(reporter: @survivor)
         render status: :ok
       else
-        render json: { errors: flag.errors }, status: :bad_request
+        render json: { errors: form.errors }, status: :bad_request
       end
-    rescue ActiveRecord::RecordNotUnique
-      return render json: { errors: { survivor_id: I18n.t('message.error.survivor.has_been_reported_by_you') } }, status: :bad_request
     end
 
     api :PUT, '/survivors/:id/trade', 'Trade items with another survivor'
@@ -83,12 +76,13 @@ module V1
       param :requesting, Integer, desc: 'Items that will be requested', required: true
     end
     def trade
-      trade = TradeForm.new(trade_params.merge(origin_survivor_id: @survivor.id))
+      trade_form = TradeForm.new(trade_params.merge(origin_survivor_id: @survivor.id))
 
-      if trade.perform
+      if trade_form.valid?
+        TradeService.perform(trade_form)
         render status: :ok
       else
-        render json: { errors: trade.errors }, status: :bad_request
+        render json: { errors: trade_form.errors }, status: :bad_request
       end
     end
 
@@ -106,6 +100,10 @@ module V1
       params.permit(:target_survivor_id).tap do |whitelisted|
         whitelisted[:items] = params[:items].permit! if params.key? :items
       end
+    end
+
+    def report_infected_params
+      params.permit(:survivor_id)
     end
 
     def survivor_location_params

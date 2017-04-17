@@ -1,140 +1,97 @@
 require 'rails_helper'
 
 RSpec.describe TradeForm, type: :model do
+  before(:each) { load_all_resources }
+
   let(:origin) { create(:full_new_survivor) }
   let(:target) { create(:full_new_survivor) }
+  let(:trade_params) { {} }
+
   it { is_expected.to validate_presence_of(:target_survivor_id) }
   it { is_expected.to validate_presence_of(:origin_survivor_id) }
   it { is_expected.to validate_presence_of(:items) }
 
+  subject { TradeForm.new(trade_params) }
+
   describe 'validations' do
     context 'when a trade is made with infected survivor' do
       let(:target) { create(:infected_survivor) }
+      let(:trade_params) { { origin_survivor_id: origin.id, target_survivor_id: target.id } }
 
       it 'should be invalid' do
-        trade_params = { origin_survivor_id: origin.id, target_survivor_id: target.id }
-        trade = TradeForm.new(trade_params)
-
-        expect(trade.valid?).to be_falsey
-        expect(trade.errors.key?(:target_survivor_id)).to be_truthy
+        expect(subject.valid?).to be_falsey
+        expect(subject.errors.key?(:target_survivor_id)).to be_truthy
       end
     end
 
-    context 'when amount of points is no equal' do
-      before do
-        create(:water)
-        create(:medication)
-        create(:ammunition)
+    context 'when amount of points is not equal' do
+      let(:trade_params) do
+        { origin_survivor_id: origin.id, target_survivor_id: target.id,
+          items: { sending: { 'Water' => 1, 'Medication' => 1 }, requesting: { 'Ammunition' => 5 } } }
       end
 
       it 'should be invalid' do
-        trade_params = {
-          origin_survivor_id: origin.id,
-          target_survivor_id: target.id,
-          items: { sending: { 'Water' => 1, 'Medication' => 1 }, requesting: { 'Ammunition' => 5 } }
-        }
-
-        trade = TradeForm.new(trade_params)
-
-        expect(trade.valid?).to be_falsey
-        expect(trade.errors.key?(:items)).to be_truthy
+        expect(subject.valid?).to be_falsey
+        expect(subject.errors.key?(:items)).to be_truthy
+        expect(subject.errors.details[:items]).to eq([{ error: :different_amount_points }])
       end
     end
 
-    context 'when the item property exists, there is not sending nor requesting' do
+    context 'when origin trade does not have enough balance' do
+      let(:origin) { create(:full_new_survivor, items: [{ name: 'Water', quantity: '2' }]) }
+      let(:trade_params) do
+        { origin_survivor_id: origin.id, target_survivor_id: target.id,
+          items: { sending: { 'Water' => 3 }, requesting: { 'Food' => 4 } } }
+      end
+
       it 'should be invalid' do
-        trade_params = { origin_survivor_id: origin.id, target_survivor_id: target.id, items: {} }
-
-        trade = TradeForm.new(trade_params)
-
-        expect(trade.valid?).to be_falsey
+        expect(subject.valid?).to be_falsey
+        expect(subject.errors.key?(:items)).to be_truthy
+        expect(subject.errors.details[:items]).to eq([{ error: :origin_does_not_have_enough_balance, resource_name: 'Water' }])
       end
     end
 
-    context 'when the item property, has sending and requesting empty' do
+    context 'when the "item" property exists, but there is no "sending" neither "requesting"' do
+      let(:trade_params) { { origin_survivor_id: origin.id, target_survivor_id: target.id, items: {} } }
+
       it 'should be invalid' do
-        trade_params = {
-          origin_survivor_id: origin.id,
-          target_survivor_id: target.id,
-          items: { sending: {}, requesting: {} }
-        }
+        expect(subject.valid?).to be_falsey
+        expect(subject.errors.key?(:items)).to be_truthy
+        expect(subject.errors.details[:items]).to eq([{ error: :blank }])
+      end
+    end
 
-        trade = TradeForm.new(trade_params)
+    context 'when the "item" property exists, but it is not a map' do
+      let(:trade_params) { { origin_survivor_id: origin.id, target_survivor_id: target.id, items: 'Water' } }
 
-        expect(trade.valid?).to be_falsey
+      it 'should be invalid' do
+        expect(subject.valid?).to be_falsey
+        expect(subject.errors.key?(:items)).to be_truthy
+        expect(subject.errors.details[:items]).to eq([{ error: :not_a_map }])
+      end
+    end
+
+    context 'when the item property has sending and requesting empty' do
+      let(:trade_params) do
+        { origin_survivor_id: origin.id, target_survivor_id: target.id,
+          items: { sending: {}, requesting: {} } }
+      end
+
+      it 'should be invalid' do
+        expect(subject.valid?).to be_falsey
+        expect(subject.errors.key?(:items)).to be_truthy
+        expect(subject.errors.details[:items]).to eq([{ error: :sending_requesting_empty }])
       end
     end
 
     context 'when everything is correct' do
-      before do
-        create(:water)
-        create(:medication)
-        create(:ammunition)
+      let(:trade_params) do
+        { origin_survivor_id: origin.id, target_survivor_id: target.id,
+          items: { sending: { 'Water' => 1 }, requesting: { 'Ammunition' => 4 } } }
       end
 
       it 'should be valid' do
-        trade_params = {
-          origin_survivor_id: origin.id,
-          target_survivor_id: target.id,
-          items: { sending: { 'Water' => 1 }, requesting: { 'Ammunition' => 4 } }
-        }
-
-        trade = TradeForm.new(trade_params)
-
-        expect(trade.valid?).to be_truthy
-      end
-    end
-  end
-
-  describe '#perform' do
-    before do
-      create(:water)
-      create(:medication)
-      create(:ammunition)
-    end
-
-    it 'should move resources from one survivor to another' do
-      trade_params = {
-        origin_survivor_id: origin.id,
-        target_survivor_id: target.id,
-        items: { sending: { 'Water' => 1 }, requesting: { 'Ammunition' => 4 } }
-      }
-
-      collect_resource = ->(item) { { resource_id: item.resource_id, quantity: item.quantity } }
-      origin_old_items = origin.survivor_items.collect(&collect_resource)
-      target_old_items = target.survivor_items.collect(&collect_resource)
-
-      trade = TradeForm.new(trade_params)
-      trade.perform
-
-      resources = Resource.where(name: %w(Water Medication Ammunition))
-
-      get_trade_items = lambda do |resource_name, resource_amount|
-        resource = resources.find { |item| item.name == resource_name }
-        { resource_id: resource.id, amout: resource_amount }
-      end
-
-      sending_items = trade_params[:items][:sending].collect(&get_trade_items)
-      requesting_items = trade_params[:items][:requesting].collect(&get_trade_items)
-
-      origin.reload
-      target.reload
-
-      origin_new_items = origin.survivor_items.collect(&collect_resource)
-      target_new_items = target.survivor_items.collect(&collect_resource)
-
-      expect_move_resource(sending_items, origin_new_items, origin_old_items, '-')
-      expect_move_resource(requesting_items, origin_new_items, origin_old_items, '+')
-
-      expect_move_resource(sending_items, target_new_items, target_old_items, '+')
-      expect_move_resource(requesting_items, target_new_items, target_old_items, '-')
-    end
-
-    def expect_move_resource(trade_items, new_items, old_items, op)
-      trade_items.each do |trade_item|
-        new_item = new_items.find { |item| item[:resource_id] == trade_item[:resource_id] }
-        old_item = old_items.find { |item| item[:resource_id] == trade_item[:resource_id] }
-        expect(new_item[:quantity]).to eq(old_item[:quantity].public_send(op, trade_item[:amout]))
+        expect(subject.valid?).to be_truthy
       end
     end
   end

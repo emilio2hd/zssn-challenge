@@ -35,5 +35,6 @@ RSpec.configure do |config|
 
   config.include FactoryGirlPreloaderHelper, type: :controller
   config.include FactoryGirlPreloaderHelper, type: :request
+  config.include FactoryGirlPreloaderHelper, type: :model
   config.include Rails.application.routes.url_helpers, type: :serializer
 end

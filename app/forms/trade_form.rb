@@ -15,14 +15,19 @@ class TradeForm
   end
 
   attr_accessor :target_survivor_id, :origin_survivor_id, :items
+  attr_reader :sending_trade_items, :requesting_trade_items
+
+  def initialize(attributes={})
+    super(attributes)
+    after_initialize
+  end
 
   validates :target_survivor_id, :origin_survivor_id, :items, presence: true
   validate :validate_survivor_alive, :validate_items
 
-  def perform
-    return false unless valid?
-    move_resources
-    true
+  def after_initialize
+    @sending_trade_items = []
+    @requesting_trade_items = []
   end
 
   private
@@ -38,6 +43,8 @@ class TradeForm
   end
 
   def validate_item_format
+    return if errors.key? :items
+
     return errors.add(:items, :not_a_map) unless items.is_a? Hash
     return errors.add(:items, :not_a_map_with_sending_requesting_keys) unless items.key?(:sending) || items.key?(:requesting)
     items[:sending] = Hash.try_convert(items[:sending]) || {}
@@ -65,42 +72,17 @@ class TradeForm
   def validate_enough_balance
     return if errors.key? :items
 
-    resource_id_list = @sending_trade_items.collect(&:resource_id)
-    SurvivorItem.where(resource_id: resource_id_list, survivor_id: origin_survivor_id).each do |current_item|
-      trade_item = @sending_trade_items.find { |sending_item| sending_item.resource_id == current_item.resource_id }
-      if (current_item.quantity - trade_item.amount) <= 0
-        errors.add(:items, :origin_does_not_have_enough_balance, resource_name: trade_item.resource_name)
+    validate_balance(@sending_trade_items, origin_survivor_id, :origin_does_not_have_enough_balance)
+    validate_balance(@requesting_trade_items, target_survivor_id, :target_does_not_have_enough_balance)
+  end
+
+  def validate_balance(trade_items, survivor_id, msg_key)
+    resource_id_list = trade_items.collect(&:resource_id)
+    SurvivorItem.where(resource_id: resource_id_list, survivor_id: survivor_id).each do |current_item|
+      trade_item = trade_items.find { |item| item.resource_id == current_item.resource_id }
+      if (current_item.quantity - trade_item.amount).negative?
+        errors.add(:items, msg_key, resource_name: trade_item.resource_name)
       end
     end
-
-    resource_id_list = @requesting_trade_items.collect(&:resource_id)
-    SurvivorItem.where(resource_id: resource_id_list, survivor_id: target_survivor_id).each do |current_item|
-      trade_item = @requesting_trade_items.find { |sending_item| sending_item.resource_id == current_item.resource_id }
-      if (current_item.quantity - trade_item.amount) <= 0
-        errors.add(:items, :target_does_not_have_enough_balance, resource_name: trade_item.resource_name)
-      end
-    end
-  end
-
-  def move_resources
-    SurvivorItem.transaction do
-      move_resources_from_to(@sending_trade_items, origin_survivor_id, target_survivor_id)
-      move_resources_from_to(@requesting_trade_items, target_survivor_id, origin_survivor_id)
-    end
-  end
-
-  def move_resources_from_to(trade_items, from_survivor_id, to_survivor_id)
-    trade_items.each do |trade_item|
-      move_resource_from_to(from_survivor_id, to_survivor_id, trade_item)
-    end
-  end
-
-  def move_resource_from_to(from_survivor_id, to_survivor_id, trade_item)
-    quoted_column = SurvivorItem.connection.quote_column_name('quantity')
-
-    SurvivorItem.where(resource_id: trade_item.resource_id, survivor_id: from_survivor_id)
-                .update_all "#{quoted_column} = COALESCE(#{quoted_column}, 0) - #{trade_item.amount}"
-    SurvivorItem.where(resource_id: trade_item.resource_id, survivor_id: to_survivor_id)
-                .update_all "#{quoted_column} = COALESCE(#{quoted_column}, 0) + #{trade_item.amount}"
   end
 end
