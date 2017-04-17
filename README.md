@@ -13,6 +13,13 @@ bundle exec rake db:seed
 
 Now, you can run the application ;)
 
+# Docker & Docker Compose
+To start the application using docker, execute:
+```
+docker-compose up -d
+docker exec -it zssh-api bash -lc "bundle exec rake db:seed"
+```
+
 # API Documentation
 The documentation can be found at **doc** folder, or running the application and browsing http://0.0.0.0:3000
 

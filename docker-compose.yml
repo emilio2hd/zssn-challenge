@@ -1,0 +1,11 @@
+version: '2'
+
+services:
+  web:
+    image: zssh_api
+    container_name: zssh-api
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - SECRET_KEY_BASE=97011f0be9ca3b175a472f0edcb89e2a8dd6f3812d9a101dce57f4b7e5900f850d6141c17f3a599ba613f830b924011eb31e12afd3de6fa7d611206f916b8017

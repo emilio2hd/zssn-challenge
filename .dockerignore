@@ -1,0 +1,11 @@
+# Folders
+coverage
+temp/**/*
+
+# Git
+.git
+.gitignore
+
+# Files
+log/*.log
+**/*.sqlite3

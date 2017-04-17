@@ -15,7 +15,7 @@ class SurvivorItem < ApplicationRecord
     end
 
     def resources_average_by_survivor
-      Rails.cache.fetch('resources_average_by_survivor') { calculate_resource_average }
+      Rails.cache.fetch('report/resources_average_by_survivor', expires_in: 12.hours) { calculate_resource_average }
     end
 
     private
