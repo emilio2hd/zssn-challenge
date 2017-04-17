@@ -202,7 +202,7 @@ RSpec.describe V1::SurvivorsController, type: :controller do
 
     context 'with valid data' do
       before do
-        items = { sending: { 'Water' => 1, 'Medication' => 1 }, requesting: { 'Ammunition' => 6 } }
+        items = { sending: { 'Water' => 1 }, requesting: { 'Ammunition' => 4 } }
         put :trade, params: { id: source.id, target_survivor_id: destiny.id, items: items }
       end
 

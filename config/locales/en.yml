@@ -36,5 +36,7 @@ en:
               not_a_map: "Must send a map"
               not_a_map_with_sending_requesting_keys: "Items must have keys 'sending' and 'requesting'"
               sending_requesting_empty: "Keys 'sending' and 'requesting' can't be empty"
+              origin_does_not_have_enough_balance: "You do not have enough balance to trade '%{resource_name}'"
+              target_does_not_have_enough_balance: "The survivor that you are trading does not have enough balance to trade '%{resource_name}'"
             target_survivor_id:
               not_alive: "Survivor is not alive"

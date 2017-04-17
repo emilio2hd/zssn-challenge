@@ -1,6 +1,7 @@
 module V1
   class SurvivorsController < ApplicationController
-    before_action :set_survivor, only: [:show, :update_location, :report_infected, :trade]
+    before_action :set_full_survivor, only: [:show]
+    before_action :set_survivor, only: [:update_location, :report_infected, :trade]
 
     api :POST, '/survivors', 'Add a new survivor to the database'
     error :code => 400, :desc => 'The survivor data has validation errors'
@@ -92,6 +93,10 @@ module V1
     end
 
     private
+
+    def set_full_survivor
+      @survivor = Survivor.only_alive.includes(survivor_items: :resource).find(params[:id])
+    end
 
     def set_survivor
       @survivor = Survivor.only_alive.find(params[:id])

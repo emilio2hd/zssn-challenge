@@ -2,10 +2,11 @@ class TradeForm
   include ActiveModel::Model
 
   class TradeItem
-    attr_accessor :resource_id, :resource_points, :amount
+    attr_accessor :resource_name, :resource_id, :resource_points, :amount
     attr_reader :total_points
 
-    def initialize(resource_id, resource_points, amount)
+    def initialize(resource_name, resource_id, resource_points, amount)
+      @resource_name = resource_name
       @resource_id = resource_id
       @resource_points = resource_points
       @amount = amount.to_i
@@ -29,6 +30,7 @@ class TradeForm
   def validate_items
     validate_item_format
     validate_amount_of_points
+    validate_enough_balance
   end
 
   def validate_survivor_alive
@@ -46,12 +48,9 @@ class TradeForm
   def validate_amount_of_points
     return if errors.key? :items
 
-    resource_name_list = (items[:sending].keys + items[:requesting].keys).uniq
-    resources = Resource.where(name: resource_name_list)
-
     create_trade_items = lambda do |resource_name, amount|
-      resource = resources.find { |item| item.name == resource_name }
-      TradeItem.new(resource.id, resource.points, amount) unless resource.nil?
+      resource = Resource.find_by_name_cached(resource_name)
+      TradeItem.new(resource_name, resource.id, resource.points, amount) unless resource.nil?
     end
 
     @sending_trade_items = items[:sending].collect(&create_trade_items).compact
@@ -61,6 +60,26 @@ class TradeForm
     sending_points = @requesting_trade_items.sum(&:total_points)
 
     errors.add(:items, :different_amount_points) if requesting_points != sending_points
+  end
+
+  def validate_enough_balance
+    return if errors.key? :items
+
+    resource_id_list = @sending_trade_items.collect(&:resource_id)
+    SurvivorItem.where(resource_id: resource_id_list, survivor_id: origin_survivor_id).each do |current_item|
+      trade_item = @sending_trade_items.find { |sending_item| sending_item.resource_id == current_item.resource_id }
+      if (current_item.quantity - trade_item.amount) <= 0
+        errors.add(:items, :origin_does_not_have_enough_balance, resource_name: trade_item.resource_name)
+      end
+    end
+
+    resource_id_list = @requesting_trade_items.collect(&:resource_id)
+    SurvivorItem.where(resource_id: resource_id_list, survivor_id: target_survivor_id).each do |current_item|
+      trade_item = @requesting_trade_items.find { |sending_item| sending_item.resource_id == current_item.resource_id }
+      if (current_item.quantity - trade_item.amount) <= 0
+        errors.add(:items, :target_does_not_have_enough_balance, resource_name: trade_item.resource_name)
+      end
+    end
   end
 
   def move_resources

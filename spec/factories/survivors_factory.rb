@@ -18,7 +18,8 @@ FactoryGirl.define do
     last_location '-16.642442,-49.402550'
     status 'alive'
     items do
-      [ { name: 'Water', quantity: '5' }, { name: 'Food', quantity: '10' }, { name: 'Medication', quantity: '15' } ]
+      [ { name: 'Water', quantity: '5' }, { name: 'Food', quantity: '10' },
+        { name: 'Medication', quantity: '15' }, { name: 'Ammunition', quantity: '5' } ]
     end
 
     factory :survivor_flagged_twice, class: Survivor do

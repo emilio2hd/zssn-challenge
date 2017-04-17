@@ -53,7 +53,7 @@ class Survivor < ApplicationRecord
   private
 
   def build_survivor_items
-    resources = Resource.all
+    resources = Resource.all_cached
 
     @survivor_items = resources.collect do |resource|
       found = items.try(:find) { |item| item[:name] == resource.name } || {}

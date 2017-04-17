@@ -76,7 +76,7 @@ RSpec.describe TradeForm, type: :model do
         trade_params = {
           origin_survivor_id: origin.id,
           target_survivor_id: target.id,
-          items: { sending: { 'Water' => 1, 'Medication' => 1 }, requesting: { 'Ammunition' => 6 } }
+          items: { sending: { 'Water' => 1 }, requesting: { 'Ammunition' => 4 } }
         }
 
         trade = TradeForm.new(trade_params)
@@ -97,7 +97,7 @@ RSpec.describe TradeForm, type: :model do
       trade_params = {
         origin_survivor_id: origin.id,
         target_survivor_id: target.id,
-        items: { sending: { 'Water' => 1, 'Medication' => 1 }, requesting: { 'Ammunition' => 6 } }
+        items: { sending: { 'Water' => 1 }, requesting: { 'Ammunition' => 4 } }
       }
 
       collect_resource = ->(item) { { resource_id: item.resource_id, quantity: item.quantity } }
@@ -119,8 +119,6 @@ RSpec.describe TradeForm, type: :model do
 
       origin.reload
       target.reload
-
-      expect(trade.valid?).to be_truthy
 
       origin_new_items = origin.survivor_items.collect(&collect_resource)
       target_new_items = target.survivor_items.collect(&collect_resource)

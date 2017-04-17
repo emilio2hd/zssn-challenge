@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  #apipie
+  apipie
   namespace :v1 do
     resources :survivors, only: [:create, :show] do
       member do
