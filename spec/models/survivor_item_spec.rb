@@ -62,5 +62,14 @@ RSpec.describe SurvivorItem, type: :model do
         expect(resource.quantity_average).to eq(average)
       end
     end
+
+    context 'when there are results in cache', caching: true do
+      before { SurvivorItem.resources_average_by_survivor }
+
+      it 'should not calculate again' do
+        expect(SurvivorItem).to_not receive(:calculate_resource_average)
+        SurvivorItem.resources_average_by_survivor
+      end
+    end
   end
 end

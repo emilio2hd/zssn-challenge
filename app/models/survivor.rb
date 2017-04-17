@@ -46,7 +46,8 @@ class Survivor < ApplicationRecord
     private
 
     def percentage_of(status)
-      (status.count.to_f / count.to_f * 100).round(2)
+      total = count.to_f
+      total.zero? ? 0.0 : (status.count.to_f / total * 100).round(2)
     end
   end
 

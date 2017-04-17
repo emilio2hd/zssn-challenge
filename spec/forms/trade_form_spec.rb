@@ -24,6 +24,16 @@ RSpec.describe TradeForm, type: :model do
       end
     end
 
+    context 'when survivor trade with itself' do
+      let(:target) { create(:infected_survivor) }
+      let(:trade_params) { { origin_survivor_id: origin.id, target_survivor_id: origin.id } }
+
+      it 'should be invalid' do
+        expect(subject.valid?).to be_falsey
+        expect(subject.errors.details[:target_survivor_id]).to eq([{ error: :trade_with_yourself }])
+      end
+    end
+
     context 'when amount of points is not equal' do
       let(:trade_params) do
         { origin_survivor_id: origin.id, target_survivor_id: target.id,

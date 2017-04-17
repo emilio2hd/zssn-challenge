@@ -1,4 +1,4 @@
 class ResourceAverageSerializer < ActiveModel::Serializer
   attributes :quantity_average
-  attribute(:resource) { object.resource.name }
+  attribute :name, key: :resource
 end

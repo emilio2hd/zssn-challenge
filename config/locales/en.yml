@@ -39,4 +39,5 @@ en:
               origin_does_not_have_enough_balance: "You do not have enough balance to trade '%{resource_name}'"
               target_does_not_have_enough_balance: "The survivor that you are trading does not have enough balance to trade '%{resource_name}'"
             target_survivor_id:
+              trade_with_yourself: "You cant not trade with yourself"
               not_alive: "Survivor is not alive"

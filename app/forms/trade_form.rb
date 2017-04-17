@@ -23,7 +23,7 @@ class TradeForm
   end
 
   validates :target_survivor_id, :origin_survivor_id, :items, presence: true
-  validate :validate_survivor_alive, :validate_items
+  validate :validate_survivor_target, :validate_items
 
   def after_initialize
     @sending_trade_items = []
@@ -38,7 +38,8 @@ class TradeForm
     validate_enough_balance
   end
 
-  def validate_survivor_alive
+  def validate_survivor_target
+    errors.add(:target_survivor_id, :trade_with_yourself) if target_survivor_id == origin_survivor_id
     errors.add(:target_survivor_id, :not_alive) unless Survivor.only_alive.exists?(target_survivor_id)
   end
 

@@ -42,7 +42,8 @@ RSpec.describe V1::ReportsController, type: :controller do
 
     before do
       resource_list = expected_resources.collect do |resource_name, average|
-        item = double(SurvivorItem, resource: instance_double('Resource', name: resource_name))
+        item = double(Resource)
+        allow(item).to receive(:read_attribute_for_serialization).with(:name).and_return(resource_name)
         allow(item).to receive(:read_attribute_for_serialization).with(:quantity_average).and_return(average)
         item
       end
